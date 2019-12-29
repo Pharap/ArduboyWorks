@@ -1,8 +1,9 @@
 #include "common.h"
 
 /*  Defines  */
-
+#if !defined(PI)
 #define PI 3.141592653589793
+#endif
 
 /*  Typedefs  */
 
@@ -106,7 +107,7 @@ PROGMEM static const byte soundGameOver[] = {
     0x90, 51, 0, 200, 0x80, 0, 50,
     0x90, 50, 0, 220, 0x80, 0, 60,
     0x90, 49, 0, 240, 0x80, 0, 70,
-    0x90, 48, 0, 260, 0x80, 0xF0
+    0x90, 48, 0, static_cast<byte>(260), 0x80, 0xF0
 };
 
 static bool     isStart;
@@ -229,7 +230,7 @@ bool updateGame(void)
     }
 
     /*  Debris  */
-    for (int i = 0, dy; i < 144; i++) {
+    for (int i = 0, dy = 0; i < 144; i++) {
         if ((i & 7) == 0) dy = caveColumn[i / 8].bottom + caveBaseBottom;
         if (debris[i].t > 0) {
             debris[i].t++;
